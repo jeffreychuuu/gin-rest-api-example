@@ -48,3 +48,7 @@ Run the app
 go run main.go
 ```
 
+View the swagger page
+
+[Swagger UI](http://localhost:8080/swagger/index.html)
+

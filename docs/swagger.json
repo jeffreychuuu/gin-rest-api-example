@@ -42,7 +42,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.CreateBookInput"
+                            "$ref": "#/definitions/models.CreateBookInput"
                         }
                     }
                 ],
@@ -134,7 +134,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.UpdateBookInput"
+                            "$ref": "#/definitions/models.UpdateBookInput"
                         }
                     }
                 ],
@@ -156,23 +156,12 @@
         }
     },
     "definitions": {
-        "controllers.CreateBookInput": {
+        "models.CreateBookInput": {
             "type": "object",
             "required": [
                 "author",
                 "title"
             ],
-            "properties": {
-                "author": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                }
-            }
-        },
-        "controllers.UpdateBookInput": {
-            "type": "object",
             "properties": {
                 "author": {
                     "type": "string"
@@ -195,6 +184,17 @@
                 "message": {
                     "type": "string",
                     "example": "Request Message"
+                }
+            }
+        },
+        "models.UpdateBookInput": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         }

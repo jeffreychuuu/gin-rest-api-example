@@ -1,5 +1,5 @@
 definitions:
-  controllers.CreateBookInput:
+  models.CreateBookInput:
     properties:
       author:
         type: string
@@ -8,13 +8,6 @@ definitions:
     required:
     - author
     - title
-    type: object
-  controllers.UpdateBookInput:
-    properties:
-      author:
-        type: string
-      title:
-        type: string
     type: object
   models.Result:
     properties:
@@ -25,6 +18,13 @@ definitions:
         type: object
       message:
         example: Request Message
+        type: string
+    type: object
+  models.UpdateBookInput:
+    properties:
+      author:
+        type: string
+      title:
         type: string
     type: object
 host: localhost:8080
@@ -56,7 +56,7 @@ paths:
         name: createBookInput
         required: true
         schema:
-          $ref: '#/definitions/controllers.CreateBookInput'
+          $ref: '#/definitions/models.CreateBookInput'
       responses:
         "200":
           description: OK
@@ -116,7 +116,7 @@ paths:
         name: updateBookInput
         required: true
         schema:
-          $ref: '#/definitions/controllers.UpdateBookInput'
+          $ref: '#/definitions/models.UpdateBookInput'
       responses:
         "200":
           description: OK

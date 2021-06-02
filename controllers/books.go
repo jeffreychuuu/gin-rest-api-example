@@ -7,16 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type CreateBookInput struct {
-	Title  string `json:"title" binding:"required"`
-	Author string `json:"author" binding:"required"`
-}
-
-type UpdateBookInput struct {
-	Title  string `json:"title"`
-	Author string `json:"author"`
-}
-
 // @Tags Book
 // @Summary Find books
 // @Success 200 {object} models.Result Successful Return Value
@@ -46,13 +36,13 @@ func FindBook(c *gin.Context) {
 
 // @Tags Book
 // @Summary Create new book
-// @Param createBookInput body controllers.CreateBookInput true "CreateBookInput"
+// @Param createBookInput body models.CreateBookInput true "CreateBookInput"
 // @Success 200 object models.Result 成功后返回值
 // @Failure 409 object models.Result 添加失败
 // @Router /books [post]
 func CreateBook(c *gin.Context) {
 	// Validate input
-	var input CreateBookInput
+	var input models.CreateBookInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -68,7 +58,7 @@ func CreateBook(c *gin.Context) {
 // @Tags Book
 // @Summary Update a book
 // @Param id path int true "id"
-// @Param updateBookInput body controllers.UpdateBookInput true "UpdateBookInput"
+// @Param updateBookInput body models.UpdateBookInput true "UpdateBookInput"
 // @Success 200 object models.Result 成功后返回值
 // @Failure 409 object models.Result 添加失败
 // @Router /books/{id} [patch]
@@ -81,7 +71,7 @@ func UpdateBook(c *gin.Context) {
 	}
 
 	// Validate input
-	var input UpdateBookInput
+	var input models.UpdateBookInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
