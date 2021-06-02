@@ -1,6 +1,6 @@
 ## Gin Rest Api Example
 
-This project is developed by [Golang]([The Go Programming Language (golang.org)](https://golang.org/)) with [Gin]([gin-gonic/gin: Gin is a HTTP web framework written in Go (Golang). It features a Martini-like API with much better performance -- up to 40 times faster. If you need smashing performance, get yourself some Gin. (github.com)](https://github.com/gin-gonic/gin)) framework to implement simple CRUD with RESTful API.
+This project is developed by [Golang](https://golang.org/) with [Gin](https://github.com/gin-gonic/gin) framework to implement simple CRUD with RESTful API.
 
 ## Prerequisite
 
