@@ -1,0 +1,132 @@
+definitions:
+  controllers.CreateBookInput:
+    properties:
+      author:
+        type: string
+      title:
+        type: string
+    required:
+    - author
+    - title
+    type: object
+  controllers.UpdateBookInput:
+    properties:
+      author:
+        type: string
+      title:
+        type: string
+    type: object
+  models.Result:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        type: object
+      message:
+        example: Request Message
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: jeffreychu888hk@gmail.com
+    name: Jeffrey Chu
+  description: Gin Rest Api Example Swagger
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Gin Rest Api Example Swagger
+  version: "1.0"
+paths:
+  /books:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Result'
+      summary: Find books
+      tags:
+      - Book
+    post:
+      parameters:
+      - description: CreateBookInput
+        in: body
+        name: createBookInput
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.CreateBookInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Result'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Result'
+      summary: Create new book
+      tags:
+      - Book
+  /books/{id}:
+    delete:
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Result'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Result'
+      summary: Delete a book
+      tags:
+      - Book
+    get:
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Result'
+      summary: Find a book
+      tags:
+      - Book
+    patch:
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: UpdateBookInput
+        in: body
+        name: updateBookInput
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UpdateBookInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Result'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Result'
+      summary: Update a book
+      tags:
+      - Book
+swagger: "2.0"
