@@ -4,7 +4,7 @@ postgres:
     - POSTGRES_PASSWORD=password
   image: postgres
   volumes:
-    - /gin-postgres-data:/var/lib/postgresql/data
+    - /tmp/gin-postgres-data:/var/lib/postgresql/data
   ports:
     - 5437:5432
 redis:
@@ -12,6 +12,6 @@ redis:
   image: redis
   command: redis-server --requirepass password
   volumes:
-    - /gin-redis-data:/data
+    - /tmp/gin-redis-data:/data
   ports:
     - 6378:6379

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"gin-rest-api-example/config"
@@ -12,8 +11,6 @@ import (
 	"strconv"
 	"time"
 )
-
-var ctx = context.Background()
 
 // @Tags Book
 // @Summary Find books
@@ -34,7 +31,7 @@ func FindBooks(c *gin.Context) {
 func FindBook(c *gin.Context) {
 	var book models.Book
 	// Try getting from Redis
-	bookJson, _ := config.Redis.HGet(ctx, "Book", c.Param("id")).Result()
+	bookJson, _ := config.Redis.HGet(c, "Book", c.Param("id")).Result()
 	json.Unmarshal([]byte(bookJson), &book)
 
 	// Get model if exist
@@ -46,10 +43,10 @@ func FindBook(c *gin.Context) {
 		}
 		// Cache Book in Redis
 		bookJson, err := json.Marshal(book)
-		err = config.Redis.HSet(ctx, "Book", strconv.FormatUint(uint64(book.ID), 10), string(bookJson)).Err()
+		err = config.Redis.HSet(c, "Book", strconv.FormatUint(uint64(book.ID), 10), string(bookJson)).Err()
 		ttl, err := strconv.ParseInt(os.Getenv("REDIS_TTL"), 10, 64)
 		// Set Redis Expire Time
-		config.Redis.Expire(ctx, "Book", time.Duration(ttl)*time.Second)
+		config.Redis.Expire(c, "Book", time.Duration(ttl)*time.Second)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -78,14 +75,19 @@ func CreateBook(c *gin.Context) {
 	config.DB.Create(&book)
 
 	// Create book in Redis
-	bookJson, err := json.Marshal(book)
-	err = config.Redis.HSet(ctx, "Book", strconv.FormatUint(uint64(book.ID), 10), string(bookJson)).Err()
-	ttl, err := strconv.ParseInt(os.Getenv("REDIS_TTL"), 10, 64)
-	// Set Redis Expire Time
-	config.Redis.Expire(ctx, "Book", time.Duration(ttl)*time.Second)
+	bookJson, _ := json.Marshal(book)
+	err := config.Redis.HSet(c, "Book", strconv.FormatUint(uint64(book.ID), 10), string(bookJson)).Err()
 	if err != nil {
-		fmt.Println(err)
+		panic("Cannot create book in Redis")
+		recover()
 	}
+	ttl, err := strconv.ParseInt(os.Getenv("REDIS_TTL"), 10, 64)
+	if err != nil {
+		panic("Cannot set Redis TTL")
+		recover()
+	}
+	// Set Redis Expire Time
+	config.Redis.Expire(c, "Book", time.Duration(ttl)*time.Second)
 	fmt.Println("Redis Insertion Success!")
 
 	c.JSON(http.StatusOK, gin.H{"data": book})
@@ -118,13 +120,14 @@ func UpdateBook(c *gin.Context) {
 
 	// Update Book in Redis
 	bookJson, err := json.Marshal(book)
-	err = config.Redis.HSet(ctx, "Book", strconv.FormatUint(uint64(book.ID), 10), string(bookJson)).Err()
-	ttl, err := strconv.ParseInt(os.Getenv("REDIS_TTL"), 10, 64)
-	// Set Redis Expire Time
-	config.Redis.Expire(ctx, "Book", time.Duration(ttl)*time.Second)
+	err = config.Redis.HSet(c, "Book", strconv.FormatUint(uint64(book.ID), 10), string(bookJson)).Err()
 	if err != nil {
-		fmt.Println(err)
+		panic("Cannot Update Book in Redis")
+		recover()
 	}
+	ttl, _ := strconv.ParseInt(os.Getenv("REDIS_TTL"), 10, 64)
+	// Set Redis Expire Time
+	config.Redis.Expire(c, "Book", time.Duration(ttl)*time.Second)
 	fmt.Println("Redis Update Success!")
 
 	c.JSON(http.StatusOK, gin.H{"data": book})
@@ -148,7 +151,7 @@ func DeleteBook(c *gin.Context) {
 	config.DB.Delete(&book)
 
 	// Delete Book in Redis
-	err := config.Redis.HDel(ctx, "Book", strconv.FormatUint(uint64(book.ID), 10)).Err()
+	err := config.Redis.HDel(c, "Book", strconv.FormatUint(uint64(book.ID), 10)).Err()
 	if err != nil {
 		fmt.Println(err)
 	}

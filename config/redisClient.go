@@ -21,7 +21,7 @@ func ConnectRedis() *redis.Client {
 	pong, err := client.Ping(ctx).Result()
 	if err != nil {
 		fmt.Println("Connection fail in Redis：", pong, err)
-		return nil
+		panic(err)
 	}
 	fmt.Println("Connection success in Redis：", pong)
 	Redis = client
