@@ -3,10 +3,13 @@ definitions:
     properties:
       author:
         type: string
+      isEnable:
+        type: boolean
       title:
         type: string
     required:
     - author
+    - isEnable
     - title
     type: object
   models.Result:
@@ -24,8 +27,12 @@ definitions:
     properties:
       author:
         type: string
+      isEnable:
+        type: boolean
       title:
         type: string
+    required:
+    - isEnable
     type: object
 host: localhost:8080
 info:

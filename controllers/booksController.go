@@ -38,7 +38,7 @@ func FindBook(c *gin.Context) {
 	if bookJson == "" {
 		// Get Book from DB
 		if err := config.DB.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+			c.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 			return
 		}
 		// Cache Book in Redis

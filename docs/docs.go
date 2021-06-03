@@ -176,11 +176,15 @@ var doc = `{
             "type": "object",
             "required": [
                 "author",
+                "isEnable",
                 "title"
             ],
             "properties": {
                 "author": {
                     "type": "string"
+                },
+                "isEnable": {
+                    "type": "boolean"
                 },
                 "title": {
                     "type": "string"
@@ -205,9 +209,15 @@ var doc = `{
         },
         "models.UpdateBookInput": {
             "type": "object",
+            "required": [
+                "isEnable"
+            ],
             "properties": {
                 "author": {
                     "type": "string"
+                },
+                "isEnable": {
+                    "type": "boolean"
                 },
                 "title": {
                     "type": "string"
