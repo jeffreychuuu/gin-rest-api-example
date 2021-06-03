@@ -1,11 +1,13 @@
-package models
+package config
 
 import (
 	"fmt"
+	"gin-rest-api-example/models"
+	"os"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	_ "github.com/joho/godotenv/autoload"
-	"os"
 )
 
 var DB *gorm.DB
@@ -25,7 +27,7 @@ func ConnectDatabase() {
 		panic("Failed to connect to database!")
 	}
 
-	database.AutoMigrate(&Book{})
+	database.AutoMigrate(&models.Book{})
 
 	DB = database
 }

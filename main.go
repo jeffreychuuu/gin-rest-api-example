@@ -1,9 +1,9 @@
 package main
 
 import (
+	"gin-rest-api-example/config"
 	"gin-rest-api-example/controllers"
 	_ "gin-rest-api-example/docs"
-	"gin-rest-api-example/models"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -24,14 +24,21 @@ func main() {
 	r := gin.Default()
 
 	// Connect to database
-	models.ConnectDatabase()
+	config.ConnectDatabase()
+
+	// Connect to redis
+	config.ConnectRedis()
 
 	// Routes
-	r.GET("/books", controllers.FindBooks)
-	r.GET("/books/:id", controllers.FindBook)
-	r.POST("/books", controllers.CreateBook)
-	r.PATCH("/books/:id", controllers.UpdateBook)
-	r.DELETE("/books/:id", controllers.DeleteBook)
+	// Book Router
+	bookRouter := r.Group("")
+	{
+		bookRouter.GET("/books", controllers.FindBooks)
+		bookRouter.GET("/books/:id", controllers.FindBook)
+		bookRouter.POST("/books", controllers.CreateBook)
+		bookRouter.PATCH("/books/:id", controllers.UpdateBook)
+		bookRouter.DELETE("/books/:id", controllers.DeleteBook)
+	}
 
 	// Swagger
 	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")

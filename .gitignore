@@ -2,3 +2,4 @@
 .DS_Store
 /gin-rest-api-example
 /.DS_Store
+.history*

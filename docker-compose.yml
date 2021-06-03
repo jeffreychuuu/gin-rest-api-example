@@ -1,17 +1,17 @@
 postgres:
-  container_name: gin-rest-api-example_postgres
+  container_name: gin-rest-api-example-postgres
   environment:
     - POSTGRES_PASSWORD=password
   image: postgres
   volumes:
-    - gin-rest-api-example_postgres/postgres-data:/var/lib/postgresql/data
+    - /gin-postgres-data:/var/lib/postgresql/data
   ports:
     - 5437:5432
-#redis:
-#  container_name: gin-rest-api-example_redis
-#  image: redis
-#  command: redis-server --requirepass password
-#  volumes:
-#    - gin-rest-api-example_postgres/redis-data:/data
-#  ports:
-#    - 6379:6379
+redis:
+  container_name: gin-rest-api-example-redis
+  image: redis
+  command: redis-server --requirepass password
+  volumes:
+    - /gin-redis-data:/data
+  ports:
+    - 6378:6379
