@@ -4,6 +4,7 @@ import (
 	"gin-rest-api-example/client"
 	"gin-rest-api-example/controllers"
 	_ "gin-rest-api-example/docs"
+	"gin-rest-api-example/grpc"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -44,6 +45,9 @@ func main() {
 	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
-	// Run the server
+	// Start grpc server
+	grpc.StartGrpcServer()
+
+	// Run the gin server
 	r.Run()
 }

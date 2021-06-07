@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+var c *gin.Context
+
 func FindBooks(c *gin.Context) {
 	var books []models.Book
 	client.DB.Find(&books)
@@ -47,14 +49,7 @@ func FindBook(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": book})
 }
 
-func CreateBook(c *gin.Context) {
-	// Validate input
-	var input models.CreateBookInput
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
+func CreateBook(input models.CreateBookInput) models.Result {
 	// Create book in DB
 	book := models.Book{Title: input.Title, Author: input.Author}
 	client.DB.Create(&book)
@@ -75,7 +70,7 @@ func CreateBook(c *gin.Context) {
 	client.Redis.Expire(c, "Book", time.Duration(ttl)*time.Second)
 	fmt.Println("Redis Insertion Success!")
 
-	c.JSON(http.StatusOK, gin.H{"data": book})
+	return models.Result{Data: string(bookJson)}
 }
 
 func UpdateBook(c *gin.Context) {

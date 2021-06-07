@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"gin-rest-api-example/models"
 	"gin-rest-api-example/services"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 // @Tags Book
@@ -19,7 +21,7 @@ func FindBooks(c *gin.Context) {
 // @Success 200 {object} models.Result Successful Return Value
 // @Router /books/{id} [get]
 func FindBook(c *gin.Context) {
-	services.CreateBook(c)
+	services.FindBook(c)
 }
 
 // @Tags Book
@@ -29,7 +31,15 @@ func FindBook(c *gin.Context) {
 // @Failure 409 object models.Result
 // @Router /books [post]
 func CreateBook(c *gin.Context) {
-	services.CreateBook(c)
+	// Validate input
+	var input models.CreateBookInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	book := services.CreateBook(input)
+
+	c.JSON(http.StatusOK, gin.H{"data": book})
 }
 
 // @Tags Book
