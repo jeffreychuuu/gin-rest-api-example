@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gin-rest-api-example/config"
+	"gin-rest-api-example/client"
 	"gin-rest-api-example/controllers"
 	_ "gin-rest-api-example/docs"
 	"github.com/gin-gonic/gin"
@@ -24,10 +24,10 @@ func main() {
 	r := gin.Default()
 
 	// Connect to database
-	config.ConnectDatabase()
+	client.ConnectDatabase()
 
 	// Connect to redis
-	config.ConnectRedis()
+	client.ConnectRedis()
 
 	// Routes
 	// Book Router

@@ -4,3 +4,4 @@
 /.DS_Store
 .history*
 /vendor/*
+/gin-rest-api-example.exe
