@@ -29,7 +29,7 @@ Go
 ## Start from scratch
 
 ```shell
-go init mod [projectname]
+go mod init [projectname]
 ```
 
 
